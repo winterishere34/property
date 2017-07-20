@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.madeofwu.property.dao.BuildingMapper" >
+<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+  <resultMap id="BaseResultMap" type="com.madeofwu.property.bean.Building" >
+    <id column="building_id" property="buildingId" jdbcType="INTEGER" />
+    <result column="building_name" property="buildingName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    building_id, building_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.madeofwu.property.bean.BuildingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_building
+    where building_id = #{buildingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_building
+    where building_id = #{buildingId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.madeofwu.property.bean.BuildingExample" >
+    delete from tbl_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.madeofwu.property.bean.Building" >
+    insert into tbl_building (building_id, building_name)
+    values (#{buildingId,jdbcType=INTEGER}, #{buildingName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.madeofwu.property.bean.Building" >
+    insert into tbl_building
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="buildingId != null" >
+        building_id,
+      </if>
+      <if test="buildingName != null" >
+        building_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="buildingId != null" >
+        #{buildingId,jdbcType=INTEGER},
+      </if>
+      <if test="buildingName != null" >
+        #{buildingName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.madeofwu.property.bean.BuildingExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_building
+    <set >
+      <if test="record.buildingId != null" >
+        building_id = #{record.buildingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buildingName != null" >
+        building_name = #{record.buildingName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_building
+    set building_id = #{record.buildingId,jdbcType=INTEGER},
+      building_name = #{record.buildingName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.madeofwu.property.bean.Building" >
+    update tbl_building
+    <set >
+      <if test="buildingName != null" >
+        building_name = #{buildingName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where building_id = #{buildingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.madeofwu.property.bean.Building" >
+    update tbl_building
+    set building_name = #{buildingName,jdbcType=VARCHAR}
+    where building_id = #{buildingId,jdbcType=INTEGER}
+  </update>
+</mapper>
